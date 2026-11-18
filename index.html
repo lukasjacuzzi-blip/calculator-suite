@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator Suite — Pro Edition</title>
+  <link rel="stylesheet" href="css/style.css" />
+    <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <meta name="theme-color" content="#06b6d4" />
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="app-wrapper">
+    <main class="calculator-shell glass-panel">
+      <header class="app-header">
+        <nav class="mode-tabs" role="tablist" aria-label="Rechner-Modi">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-mode="standard">
+            Standard
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-mode="programmer">
+            Programmierer
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-mode="converter">
+            Konverter
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-mode="graph">
+            Graph
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <button id="sciToggleBtn" class="icon-btn" title="Wissenschaftliches Panel umschalten" aria-label="Wissenschaftlich">
+            <span>ƒ(x)</span>
+          </button>
+          <button id="historyToggleBtn" class="icon-btn" title="Rechenverlauf" aria-label="Verlauf öffnen">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </button>
+          <button id="themeToggleBtn" class="icon-btn" title="Design wechseln" aria-label="Theme wechseln">
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section id="mode-standard" class="mode-view active" role="tabpanel">
+        <div class="display-card">
+          <div class="display-top-bar">
+            <span id="angleIndicator" class="badge-pill">DEG</span>
+            <button id="copyResultBtn" class="copy-btn" title="Ergebnis kopieren">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span id="copyFeedback">Kopieren</span>
+            </button>
+          </div>
+          <div id="stdExpression" class="display-expression" aria-live="polite"></div>
+          <div id="stdResult" class="display-result" aria-live="polite">0</div>
+        </div>
+
+        <div class="standard-workspace">
+          <div id="scientificPanel" class="sci-grid hidden">
+            <button class="calc-btn sci" data-action="angle-toggle" id="degRadBtn">DEG</button>
+            <button class="calc-btn sci" data-action="func" data-value="sin(">sin</button>
+            <button class="calc-btn sci" data-action="func" data-value="cos(">cos</button>
+            <button class="calc-btn sci" data-action="func" data-value="tan(">tan</button>
+
+            <button class="calc-btn sci" data-action="func" data-value="asin(">sin⁻¹</button>
+            <button class="calc-btn sci" data-action="func" data-value="acos(">cos⁻¹</button>
+            <button class="calc-btn sci" data-action="func" data-value="atan(">tan⁻¹</button>
+            <button class="calc-btn sci" data-action="operator" data-value="^">xʸ</button>
+
+            <button class="calc-btn sci" data-action="func" data-value="sqrt(">√</button>
+            <button class="calc-btn sci" data-action="square">x²</button>
+            <button class="calc-btn sci" data-action="func" data-value="log(">log</button>
+            <button class="calc-btn sci" data-action="func" data-value="ln(">ln</button>
+
+            <button class="calc-btn sci" data-action="factorial">n!</button>
+            <button class="calc-btn sci" data-action="const" data-value="π">π</button>
+            <button class="calc-btn sci" data-action="const" data-value="e">e</button>
+            <button class="calc-btn sci" data-action="paren" data-value="()">( )</button>
+          </div>
+
+          <div class="std-grid">
+            <button class="calc-btn util" data-action="clear" data-key="Escape">AC</button>
+            <button class="calc-btn util" data-action="backspace" data-key="Backspace">⌫</button>
+            <button class="calc-btn util" data-action="percent" data-key="%">%</button>
+            <button class="calc-btn op" data-action="operator" data-value="÷" data-key="/">÷</button>
+
+            <button class="calc-btn num" data-action="digit" data-value="7" data-key="7">7</button>
+            <button class="calc-btn num" data-action="digit" data-value="8" data-key="8">8</button>
+            <button class="calc-btn num" data-action="digit" data-value="9" data-key="9">9</button>
+            <button class="calc-btn op" data-action="operator" data-value="×" data-key="*">×</button>
+
+            <button class="calc-btn num" data-action="digit" data-value="4" data-key="4">4</button>
+            <button class="calc-btn num" data-action="digit" data-value="5" data-key="5">5</button>
+            <button class="calc-btn num" data-action="digit" data-value="6" data-key="6">6</button>
+            <button class="calc-btn op" data-action="operator" data-value="−" data-key="-">−</button>
+
+            <button class="calc-btn num" data-action="digit" data-value="1" data-key="1">1</button>
+            <button class="calc-btn num" data-action="digit" data-value="2" data-key="2">2</button>
+            <button class="calc-btn num" data-action="digit" data-value="3" data-key="3">3</button>
+            <button class="calc-btn op" data-action="operator" data-value="+" data-key="+">+</button>
+
+            <button class="calc-btn num" data-action="negate">+/-</button>
+            <button class="calc-btn num" data-action="digit" data-value="0" data-key="0">0</button>
+            <button class="calc-btn num" data-action="decimal" data-key=".">.</button>
+            <button class="calc-btn eq" data-action="equals" data-key="Enter">=</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mode-programmer" class="mode-view" role="tabpanel">
+        <div class="display-card prog-display">
+          <div id="progExpression" class="display-expression"></div>
+          <div id="progMainValue" class="display-result">0</div>
+
+          <div class="radix-list">
+            <button class="radix-row" data-base="16">
+              <span class="radix-label">HEX</span>
+              <span id="valHex" class="radix-val">0</span>
+            </button>
+            <button class="radix-row active" data-base="10">
+              <span class="radix-label">DEC</span>
+              <span id="valDec" class="radix-val">0</span>
+            </button>
+            <button class="radix-row" data-base="8">
+              <span class="radix-label">OCT</span>
+              <span id="valOct" class="radix-val">0</span>
+            </button>
+            <button class="radix-row" data-base="2">
+              <span class="radix-label">BIN</span>
+              <span id="valBin" class="radix-val bin-wrap">0</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="prog-grid">
+          <button class="calc-btn sci" data-prog-op="AND">AND</button>
+          <button class="calc-btn sci" data-prog-op="OR">OR</button>
+          <button class="calc-btn sci" data-prog-op="XOR">XOR</button>
+          <button class="calc-btn sci" data-prog-action="not">NOT</button>
+          <button class="calc-btn sci" data-prog-op="LSH">&lt;&lt;</button>
+          <button class="calc-btn sci" data-prog-op="RSH">&gt;&gt;</button>
+
+          <button class="calc-btn hex-btn" data-prog-digit="A" disabled>A</button>
+          <button class="calc-btn hex-btn" data-prog-digit="B" disabled>B</button>
+          <button class="calc-btn util" data-prog-action="clear">AC</button>
+          <button class="calc-btn util" data-prog-action="backspace">⌫</button>
+          <button class="calc-btn util" data-prog-action="negate">+/-</button>
+          <button class="calc-btn op" data-prog-op="DIV">÷</button>
+
+          <button class="calc-btn hex-btn" data-prog-digit="C" disabled>C</button>
+          <button class="calc-btn hex-btn" data-prog-digit="D" disabled>D</button>
+          <button class="calc-btn num" data-prog-digit="7">7</button>
+          <button class="calc-btn num" data-prog-digit="8">8</button>
+          <button class="calc-btn num" data-prog-digit="9">9</button>
+          <button class="calc-btn op" data-prog-op="MUL">×</button>
+          <button class="calc-btn hex-btn" data-prog-digit="E" disabled>E</button>
+          <button class="calc-btn hex-btn" data-prog-digit="F" disabled>F</button>
+          <button class="calc-btn num" data-prog-digit="4">4</button>
+          <button class="calc-btn num" data-prog-digit="5">5</button>
+          <button class="calc-btn num" data-prog-digit="6">6</button>
+          <button class="calc-btn op" data-prog-op="SUB">−</button>
+
+          <button class="calc-btn sci" disabled>32-BIT</button>
+          <button class="calc-btn num" data-prog-digit="0">0</button>
+          <button class="calc-btn num" data-prog-digit="1">1</button>
+          <button class="calc-btn num" data-prog-digit="2">2</button>
+          <button class="calc-btn num" data-prog-digit="3">3</button>
+          <button class="calc-btn op" data-prog-op="ADD">+</button>
+
+          <button class="calc-btn eq prog-eq" data-prog-action="equals">=</button>
+        </div>
+      </section>
+
+      <section id="mode-converter" class="mode-view" role="tabpanel">
+        <div class="converter-container">
+          <div class="category-pills" id="converterCategories">
+            <button class="cat-pill active" data-cat="currency">Währung</button>
+            <button class="cat-pill" data-cat="length">Länge</button>
+            <button class="cat-pill" data-cat="weight">Gewicht</button>
+            <button class="cat-pill" data-cat="temperature">Temperatur</button>
+            <button class="cat-pill" data-cat="data">Datenspeicher</button>
+          </div>
+
+          <div class="converter-box">
+            <label for="convInputA" class="conv-label">Von</label>
+            <div class="conv-row">
+              <input type="number" id="convInputA" class="conv-input" value="1" step="any" />
+              <select id="convUnitA" class="conv-select"></select>
+            </div>
+          </div>
+
+          <div class="swap-wrapper">
+            <button id="swapUnitsBtn" class="swap-btn" title="Einheiten tauschen" aria-label="Einheiten tauschen">
+              ⇄
+            </button>
+          </div>
+
+          <div class="converter-box">
+            <label for="convInputB" class="conv-label">Nach</label>
+            <div class="conv-row">
+              <input type="number" id="convInputB" class="conv-input" step="any" />
+              <select id="convUnitB" class="conv-select"></select>
+            </div>
+          </div>
+
+          <div id="currencyRatePanel" class="rate-panel">
+            <div class="rate-info">
+              <span id="rateFormulaText">1 EUR = 1.0850 USD</span>
+              <button id="toggleRateEditBtn" class="link-btn">Kurs anpassen</button>
+            </div>
+            <div id="rateEditBox" class="rate-edit-box hidden">
+              <label for="customRateInput">Eigener Wechselkurs (1 Einheit A in B):</label>
+              <div class="rate-edit-controls">
+                <input type="number" id="customRateInput" class="conv-input small" step="0.0001" min="0.000001" />
+                <button id="applyRateBtn" class="calc-btn eq small-btn">Speichern</button>
+                <button id="resetRatesBtn" class="calc-btn util small-btn">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mode-graph" class="mode-view" role="tabpanel">
+        <div class="graph-canvas-wrapper">
+          <canvas id="graphCanvas"></canvas>
+          <button id="resetGraphBtn" class="graph-reset-btn" title="Ansicht zurücksetzen">↺ Reset</button>
+          <div id="graphCoords" class="graph-coords">x: 0.00, y: 0.00</div>
+        </div>
+
+        <div class="graph-inputs">
+          <div class="func-row">
+            <span class="func-dot" style="background: #06b6d4;">f₁(x)</span>
+            <input type="text" class="func-input" data-fn-index="0" value="sin(x) * 3" placeholder="z.B. sin(x) * 3" />
+          </div>
+          <div class="func-row">
+            <span class="func-dot" style="background: #6366f1;">f₂(x)</span>
+            <input type="text" class="func-input" data-fn-index="1" value="0.25 * x^2 - 2" placeholder="z.B. x^2 - 4" />
+          </div>
+          <div class="func-row">
+            <span class="func-dot" style="background: #f43f5e;">f₃(x)</span>
+            <input type="text" class="func-input" data-fn-index="2" value="" placeholder="Weitere Funktion eingeben..." />
+          </div>
+        </div>
+
+        <div class="graph-presets">
+          <button class="cat-pill preset-fn" data-preset="sin(x) * x">sin(x)·x</button>
+          <button class="cat-pill preset-fn" data-preset="tan(x)">tan(x)</button>
+          <button class="cat-pill preset-fn" data-preset="sqrt(x^2 + 1)">√(x²+1)</button>
+          <button class="cat-pill preset-fn" data-preset="x^3 - 3*x">x³−3x</button>
+        </div>
+      </section>
+    </main>
+
+    <aside id="historyDrawer" class="history-drawer glass-panel" aria-label="Rechenverlauf">
+      <div class="history-header">
+        <h2>Verlauf</h2>
+        <div class="history-actions">
+          <button id="exportHistoryBtn" class="icon-btn" title="Als JSON exportieren" aria-label="Verlauf exportieren">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
+          <button id="clearHistoryBtn" class="icon-btn danger" title="Verlauf löschen" aria-label="Verlauf löschen">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+          <button id="closeHistoryBtn" class="icon-btn mobile-only" aria-label="Schließen">✕</button>
+        </div>
+      </div>
+      <div id="historyList" class="history-list">
+        <p class="empty-history">Noch keine Berechnungen vorhanden.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
